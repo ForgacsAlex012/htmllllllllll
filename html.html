@@ -1,118 +1,257 @@
-
-HTML alapozó feladat
-Szabolcs Juhász
-•
-szept. 27. (Szerkesztve: szept. 27.)
-100 pont
-Határidő: Tegnap
-Kurzusmegjegyzések
-Saját feladat
-Leadva
-
-html.html
-HTML
-Privát megjegyzések
 <!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gáspár Laci</title>
+    <title>Képkattintások számláló és mozgás</title>
     <style>
-        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            overflow: hidden; /* Elkerüljük a scrollozást */
             margin: 0;
-            padding: 20px;
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
+            padding: 0;
+            background-color: #f0f0f0;
         }
         .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        .image {
+            position: absolute;
+            width: 100px; /* Kisebb képméret */
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.5s;
+            z-index: 1; /* Képek a kockák alatt */
+        }
+        .object {
+            position: absolute;
+            width: 100px; /* Kisebb objektum méret */
+            height: 100px;
+            background-color: yellow;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 2; /* Kockák a képek felett */
+        }
+        .counter, .timer, .start-btn, .settings-btn {
+            position: fixed;
+            font-size: 16px; /* Kisebb betűméret */
+            background-color: #ffffff;
+            padding: 10px;
+            border: 1px solid #cccccc;
+        }
+        .counter {
+            bottom: 50px;
+            left: 10px;
+        }
+        .timer {
+            bottom: 10px;
+            left: 10px;
+        }
+        .start-btn, .settings-btn {
+            bottom: 10px;
+            cursor: pointer;
+            background-color: #4CAF50; /* Zöld gomb */
+            color: white;
+            border: none;
             border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .bio, .career, .discography, .impact, .personal-life {
-            margin-bottom: 20px;
+        .start-btn {
+            left: 200px;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+        .settings-btn {
+            left: 350px;
         }
-        ul li {
-            margin: 5px 0;
+        .table-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            z-index: 3;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #cccccc;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .settings-form {
+            display: none;
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #cccccc;
+            z-index: 4;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Gáspár Laci</h1>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrCAds89iaFY70dm8Uwfu2_o03vD8WiaRKng&s" alt="Gáspár Laci">
-        
-        <div class="bio">
-            <h2>Rövid Életrajz</h2>
-            <p>Gáspár Laci 1986. május 27-én született, Magyarországon. Gyerekkorában már fiatalon elkezdett érdeklődni a zene iránt, és különböző zenei versenyeken vett részt. A zene iránti szenvedélyét családja is támogatta, így már tinédzserként fellépett helyi rendezvényeken.</p>
-            <p>Laci tehetségét a "Megasztár" című tehetségkutató műsorban fedezték fel, ahol a verseny során több száz jelentkező közül a legjobbak közé került, és nagy népszerűségnek örvendett. A műsorban mutatott teljesítménye és karizmatikus személyisége miatt gyorsan a közönség kedvence lett.</p>
-        </div>
-        
-        <img src="https://ocdn.eu/images/pulscms/MGI7MDA_/a88df6b462ccf19858ddacb943321060.png" alt="Gáspár Laci koncerten">
-        <div class="career">
-            <h2>Kariere</h2>
-            <p>Gáspár Laci karrierje 2007-ben indult, amikor megnyerte a "Megasztár" tehetségkutatót. Ezt követően azonnal szerződést kapott, és elkezdte megjelentetni első dalait. Az évek során számos sikeres albumot adott ki, és dalai rendszeresen szerepeltek a toplistákon.</p>
-            <h3>Fontosabb dalai:</h3>
-            <ul>
-                <li>"Szívből énekelek"</li>
-                <li>"Új utak"</li>
-                <li>"Az első pillanatban"</li>
-                <li>"Kérlek, ne hagyj el"</li>
-                <li>"A boldogság nyomában"</li>
-            </ul>
-            <p>Laci zenéje ötvözi a pop, rock és népzene elemeit, így széles közönséget vonz. Művészetében gyakran foglalkozik a szerelem, a barátság és az élet nehézségeivel, így sok fiatal számára inspiráló figura lett.</p>
-        </div>
+        <!-- Több sárga objektum elhelyezése -->
+        <div class="object" style="top: 10%; left: 10%;"></div>
+        <div class="object" style="top: 10%; left: 30%;"></div>
+        <div class="object" style="top: 10%; left: 50%;"></div>
+        <div class="object" style="top: 30%; left: 20%;"></div>
+        <div class="object" style="top: 30%; left: 40%;"></div>
+        <div class="object" style="top: 30%; left: 60%;"></div>
+        <div class="object" style="top: 50%; left: 10%;"></div>
+        <div class="object" style="top: 50%; left: 30%;"></div>
+        <div class="object" style="top: 50%; left: 50%;"></div>
+        <div class="object" style="top: 70%; left: 20%;"></div>
+        <div class="object" style="top: 70%; left: 40%;"></div>
+        <div class="object" style="top: 70%; left: 60%;"></div>
 
-        <div class="discography">
-            <h2>Discográfia</h2>
-            <table>
-                <tr>
-                    <th>Laci és a zene</th>
-                    <th>Új utak</th>
-                    <th>Életem dalai</th>
-                    <th>Szívből énekelek</th>
-                    <th>Legszebb pillanatok</th>
-                </tr>
-                <tr>
-                    <td>2008</td>
-                    <td>2010</td>
-                    <td>2013</td>
-                    <td>2015</td>
-                    <td>2018</td>
-                    <td>2021</td>
-                </tr>
-            </table>
-            <p>Minden album eladási rekordokat döntött, és számos díjat nyert el, ami megerősítette pozícióját a magyar zenei piacon.</p>
-        </div>
-
-        <img src="https://www.frisss.hu/img/3019_7586_bde96d4dc1d64fa1b0e9365cafd0d45d.jpg" alt="Gáspár Laci rajongói">
-        <div class="impact">
-            <h2>Hatás és Inspiráció</h2>
-            <p>Gáspár Laci a magyar popkultúra egyik meghatározó alakja lett. Az emberekhez való közvetlen és barátságos hozzáállása, valamint a zenéje pozitív üzenetei miatt sokan követik őt. Koncertjei során közvetlen kapcsolatba lép a rajongókkal, ami tovább növeli népszerűségét.</p>
-            <p>Számos fiatal zenész és énekes tekinti példaképének, és sokan inspirálódnak a munkásságából. Laci rendszeresen részt vesz jótékonysági eseményeken is, ahol a zenéjével és személyiségével próbál segíteni másokon.</p>
-        </div>
-
-        <div class="personal-life">
-            <h2>Személyes Élet</h2>
-            <p>Laci magánélete mindig is a figyelem középpontjában állt. Az énekes házas, és feleségével, akivel több éve élnek együtt, boldog családi életet élnek. Gyermekeik születése óta még inkább családcentrikusabbá vált, és gyakran oszt meg képeket és történeteket a közösségi médiában a családjáról.</p>
-            <p>Hobbijai közé tartozik a sport, különösen a futball, valamint a természetjárás. Szabadidejében szívesen kirándul, és a természet közelségét keresi, ami számára fontos a feltöltődéshez.</p>
-        </div>
+        <img src="https://th.bing.com/th/id/R.e75f52b5c2e02a1b7888a2cf5f1bd550?rik=ckHWjqCWAd7zxQ&pid=ImgRaw&r=0" alt="Kép 1" class="image" id="image1">
+        <img src="https://www.mall.hu/i/102554564/550/550" alt="Kép 2" class="image" id="image2">
     </div>
+    <div class="counter" id="counter">Kattintások összesen: 0</div>
+    <div class="timer" id="timer">Idő: 20:00</div>
+    <button class="start-btn" id="start-btn">Start</button>
+    <button class="settings-btn" id="settings-btn">Beállítások</button>
+    <div class="settings-form" id="settings-form">
+        <label for="time-input">Állítsd be az időt (másodperc):</label>
+        <input type="number" id="time-input" min="1" value="20">
+        <button id="apply-settings">Alkalmaz</button>
+        <button id="close-settings">Bezár</button>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Időszak</th>
+                    <th>Kattintások</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Adatok ide kerülnek -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const images = document.querySelectorAll('.image');
+        const counter = document.getElementById('counter');
+        const timer = document.getElementById('timer');
+        const startBtn = document.getElementById('start-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsForm = document.getElementById('settings-form');
+        const timeInput = document.getElementById('time-input');
+        const applySettingsBtn = document.getElementById('apply-settings');
+        const closeSettingsBtn = document.getElementById('close-settings');
+        const tableBody = document.getElementById('table-body');
+
+        let totalClicks = 0;
+        let countdownTime = 20; // Kezdő idő (másodperc)
+        let timerInterval;
+        let gameStarted = false;
+        let currentImageId = null;
+
+        function moveImage(img) {
+            const container = img.parentElement;
+            const containerRect = container.getBoundingClientRect();
+            const imgRect = img.getBoundingClientRect();
+
+            // Képernyő méretek
+            const maxX = containerRect.width - imgRect.width;
+            const maxY = containerRect.height - imgRect.height;
+
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            img.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function updateTime() {
+            if (countdownTime <= 0) {
+                clearInterval(timerInterval);
+                alert('Idő lejárt!');
+                addTableRow(`${timeInput.value} másodperc`, totalClicks);
+                resetGame();
+                return;
+            }
+
+            const minutes = Math.floor(countdownTime / 60);
+            const seconds = countdownTime % 60;
+            timer.textContent = `Idő: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            countdownTime--;
+        }
+
+        function startTimer() {
+            countdownTime = parseInt(timeInput.value) || 20; // Beállított idő vagy alapértelmezett 20 másodperc
+            timer.textContent = `Idő: ${countdownTime.toString().padStart(2, '0')}:00`;
+            timerInterval = setInterval(updateTime, 1000);
+        }
+
+        function resetGame() {
+            totalClicks = 0;
+            counter.textContent = `Kattintások összesen: ${totalClicks}`;
+            images.forEach(image => moveImage(image));
+            gameStarted = false;
+        }
+
+        function addTableRow(time, clicks) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${time}</td>
+                <td>${clicks}</td>
+            `;
+            tableBody.appendChild(row);
+        }
+
+        images.forEach(image => {
+            moveImage(image); // Kezdő pozíció beállítása
+
+            image.addEventListener('click', function() {
+                if (gameStarted) {
+                    totalClicks++;
+                    counter.textContent = `Kattintások összesen: ${totalClicks}`;
+                    currentImageId = image.id;
+                    moveImage(image); // Mozgatás kattintás után
+                }
+            });
+
+            // Mozgatás időnként
+            setInterval(() => {
+                if (currentImageId === image.id) {
+                    moveImage(image);
+                }
+            }, 2000 + Math.random() * 3000);
+        });
+
+        startBtn.addEventListener('click', function() {
+            if (!gameStarted) {
+                startTimer();
+                gameStarted = true;
+            }
+        });
+
+        settingsBtn.addEventListener('click', function() {
+            settingsForm.style.display = 'block';
+        });
+
+        closeSettingsBtn.addEventListener('click', function() {
+            settingsForm.style.display = 'none';
+        });
+
+        applySettingsBtn.addEventListener('click', function() {
+            resetGame();
+            startTimer();
+            settingsForm.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
